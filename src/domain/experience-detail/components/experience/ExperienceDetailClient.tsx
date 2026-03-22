@@ -2,16 +2,21 @@
 
 import { useState } from 'react';
 import ReservationCard from '@/domain/experience-detail/components/reservation/ReservationCard';
-import type { ExperienceDetail } from '@/domain/experience-detail/type';
+import type {
+  AvailableSchedule,
+  ExperienceDetail,
+} from '@/domain/experience-detail/type';
 
 interface ExperienceDetailClientProps {
   experience: ExperienceDetail;
   isMyExperience: boolean;
+  initialAvailableSchedules: AvailableSchedule[];
 }
 
 export default function ExperienceDetailClient({
   experience,
   isMyExperience,
+  initialAvailableSchedules,
 }: ExperienceDetailClientProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -25,6 +30,7 @@ export default function ExperienceDetailClient({
     <div className='lg:col-span-1'>
       <ReservationCard
         experience={experience}
+        initialAvailableSchedules={initialAvailableSchedules}
         selectedDate={selectedDate}
         selectedTime={selectedTime}
         participantCount={participantCount}

@@ -47,6 +47,7 @@ export interface UseInfiniteOptions<TPage, TItem> {
   getItemCursor?: (item: TItem) => number;
   staleTime?: number;
   gcTime?: number;
+  initialData?: InfiniteData<TPage, number>;
 }
 
 /** URL 자체를 커서로 쓰는 범용 무한 스크롤 훅 */
@@ -61,6 +62,7 @@ export function useInfiniteByCursor<TPage, TItem>({
   getItemCursor,
   staleTime = DEFAULT_STALE_TIME,
   gcTime = DEFAULT_GC_TIME,
+  initialData,
 }: UseInfiniteOptions<TPage, TItem>) {
   const query = useInfiniteQuery<
     TPage,
@@ -95,6 +97,7 @@ export function useInfiniteByCursor<TPage, TItem>({
 
       return getItemCursor(lastItem);
     },
+    initialData,
   });
 
   const pageItemsFlat = query.data?.pages.flatMap((p) => selectItems(p)) ?? [];

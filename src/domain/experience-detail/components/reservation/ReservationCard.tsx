@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ExperienceHeader from '@/domain/experience-detail/components/experience/ExperienceHeader';
 import Calendar from '@/domain/experience-detail/components/reservation/Calendar';
 import MobileReservationBar from '@/domain/experience-detail/components/reservation/MobileReservationBar';
@@ -26,6 +26,7 @@ const VALIDATION_MESSAGES = {
 
 export default function ReservationCard({
   experience,
+  initialAvailableSchedules,
   selectedDate,
   selectedTime,
   participantCount,
@@ -35,12 +36,18 @@ export default function ReservationCard({
 }: ReservationCardProps) {
   const [availableSchedules, setAvailableSchedules] = useState<
     AvailableSchedule[]
-  >([]);
+  >(initialAvailableSchedules);
   const [isLoading, setIsLoading] = useState(false);
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+  const hasLoadedInitialMonth = useRef(false);
 
   useEffect(() => {
+    if (!hasLoadedInitialMonth.current) {
+      hasLoadedInitialMonth.current = true;
+      return;
+    }
+
     const loadAvailableSchedules = async () => {
       try {
         const year = currentYear.toString();

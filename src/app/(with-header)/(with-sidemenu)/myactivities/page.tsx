@@ -1,6 +1,7 @@
 import ToastOnMount from '@/components/ToastOnMount';
 import RegisterActivity from '@/domain/myactivities/components/RegitsterActivity';
 import MyActivitySection from '@/domain/myactivities/components/MyActivitySection';
+import { getMyActivities } from '@/domain/myactivities/api';
 
 export default async function Page({
   searchParams,
@@ -9,6 +10,7 @@ export default async function Page({
 }) {
   const sp = await searchParams;
   const unauthorized = sp?.unauthorized === '1';
+  const initialActivities = await getMyActivities();
 
   return (
     <>
@@ -29,7 +31,7 @@ export default async function Page({
             </div>
           </div>
         </section>
-        <MyActivitySection />
+        <MyActivitySection initialData={initialActivities} />
       </main>
     </>
   );

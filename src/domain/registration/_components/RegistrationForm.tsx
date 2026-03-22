@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import {
   FormProvider,
   type SubmitErrorHandler,
@@ -9,8 +9,6 @@ import {
   useForm,
   useFormContext,
 } from 'react-hook-form';
-import { ApiError } from '@/api/api';
-import { useQueryClient } from '@tanstack/react-query';
 import Button from '@/components/button/Button';
 import { ModalContainer } from '@/components/dialog/Modal/ModalContainer';
 import { toast } from '@/components/toast';
@@ -21,15 +19,13 @@ import { TimeSlotsField } from '@/domain/registration/_components/TimeSlotsField
 import { useBannerImageUpload } from '@/domain/registration/_hooks/useBannerImageUpload';
 import { useIntroImageUpload } from '@/domain/registration/_hooks/useIntroImageUpload';
 import { useLeaveGuard } from '@/domain/registration/_hooks/useLeaveGuard';
-import { buildRegistrationPayload } from '@/domain/registration/_utils/buildRegistrationPayload';
-import { buildUpdatePayload } from '@/domain/registration/_utils/buildUpdatePayload';
 import {
   createEmptyTimeSlot,
   type TimeSlot,
 } from '@/domain/registration/_utils/createEmptyTimeSlot';
 import type { FormValues } from '@/domain/registration/types';
-import type { ActivityDetail } from '@/domain/activities/api';
-import { createActivity, updateActivity } from '@/domain/activities/api';
+import type { MyActivityDetail } from '@/domain/activities/api';
+import { saveActivityAction } from '@/domain/registration/actions/saveActivity';
 
 const CATEGORY_OPTIONS = [
   { label: '문화 · 예술', value: '문화 · 예술' },
@@ -47,24 +43,19 @@ type Mode = 'create' | 'edit';
 
 interface RegistrationFormProps {
   mode: Mode;
-  initialData?: ActivityDetail;
-  isSubmitting?: boolean;
+  initialData?: MyActivityDetail;
 }
 
 export default function RegistrationForm({
   mode,
   initialData,
-  isSubmitting,
 }: RegistrationFormProps) {
   const router = useRouter();
-  const queryClient = useQueryClient();
-  const normalizeSubImages = (data?: ActivityDetail): string[] => {
+  const [isPending, startTransition] = useTransition();
+  const normalizeSubImages = (data?: MyActivityDetail): string[] => {
     if (!data) return [];
-    if (Array.isArray(data.subImageUrls)) return data.subImageUrls;
-    if (Array.isArray((data as any).subImages)) {
-      const arr = (data as any).subImages as Array<
-        string | { imageUrl: string }
-      >;
+    if (Array.isArray(data.subImages)) {
+      const arr = data.subImages as Array<string | { imageUrl: string }>;
       return arr
         .map((item) => (typeof item === 'string' ? item : item.imageUrl))
         .filter(Boolean);
@@ -107,46 +98,23 @@ export default function RegistrationForm({
   );
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const payload = buildRegistrationPayload({
-      formData: {
-        title: data.title,
-        description: data.description,
-        category: data.category,
-        price: data.price,
-        address: data.address,
-      },
-      bannerImageUrl: data.bannerImage,
-      introImages: data.subImageUrls.map((url) => ({ src: url })), // 여기서 변환
-      timeSlots,
-    });
+    startTransition(async () => {
+      const result = await saveActivityAction({
+        mode,
+        formValues: data,
+        timeSlots,
+        initialData,
+      });
 
-    try {
-      if (mode === 'edit' && initialData?.id != null) {
-        // Build update-diff payload for edit endpoint
-        const updatePayload = buildUpdatePayload(
-          initialData as any,
-          data,
-          timeSlots
-        );
-        await updateActivity(initialData.id, updatePayload);
-        toast({ message: '체험 수정이 완료되었습니다.', eventType: 'success' });
-      } else {
-        await createActivity(payload);
-        toast({ message: '체험 등록이 완료되었습니다.', eventType: 'success' });
+      toast({
+        message: result.message,
+        eventType: result.status === 'success' ? 'success' : 'error',
+      });
+
+      if (result.status === 'success') {
+        router.replace('/myactivities');
       }
-      // 업데이트 후 내 체험 목록 무효화
-      await queryClient.invalidateQueries({ queryKey: ['myActivities'] });
-      router.replace('/myactivities');
-    } catch (error) {
-      const message =
-        error instanceof ApiError
-          ? error.message
-          : mode === 'edit'
-            ? '수정 중 오류가 발생했습니다.'
-            : '등록 중 오류가 발생했습니다.';
-
-      toast({ message, eventType: 'error' });
-    }
+    });
   };
 
   const onInvalid: SubmitErrorHandler<FormValues> = (errors) => {
@@ -211,7 +179,7 @@ export default function RegistrationForm({
   return (
     <FormProvider {...methods}>
       <InnerRegistrationForm
-        isSubmitting={isSubmitting}
+        isSubmitting={isPending}
         formRef={formRef}
         handleSubmit={methods.handleSubmit}
         mode={mode}
@@ -226,6 +194,23 @@ export default function RegistrationForm({
   );
 }
 
+interface InnerRegistrationFormProps {
+  isSubmitting: boolean;
+  formRef: React.RefObject<HTMLFormElement | null>;
+  handleSubmit: ReturnType<typeof useForm<FormValues>>['handleSubmit'];
+  onSubmit: SubmitHandler<FormValues>;
+  onInvalid: SubmitErrorHandler<FormValues>;
+  mode: Mode;
+  timeSlots: TimeSlot[];
+  onAddTimeSlot: () => void;
+  onRemoveTimeSlot: (id: string) => void;
+  onChangeTimeSlot: (
+    id: string,
+    field: keyof Omit<TimeSlot, 'id'>,
+    value: string
+  ) => void;
+}
+
 function InnerRegistrationForm({
   isSubmitting,
   formRef,
@@ -237,7 +222,7 @@ function InnerRegistrationForm({
   onAddTimeSlot,
   onRemoveTimeSlot,
   onChangeTimeSlot,
-}: any) {
+}: InnerRegistrationFormProps) {
   // ✅ 배너 이미지 훅
   const {
     image: bannerImage,

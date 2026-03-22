@@ -1,7 +1,7 @@
 import { useInfiniteByCursor } from '@/hooks/useInfiniteScroll';
 import type { Activity, MyActivities } from '@/domain/myactivities/type';
 
-export function useMyActivities() {
+export function useMyActivities(initialData?: MyActivities) {
   const pageSize = 5;
   const {
     items: activities,
@@ -13,6 +13,12 @@ export function useMyActivities() {
   } = useInfiniteByCursor<MyActivities, Activity>({
     queryKey: ['myActivities'],
     initialCursor: 0,
+    initialData: initialData
+      ? {
+          pages: [initialData],
+          pageParams: [0],
+        }
+      : undefined,
     buildUrl: (cursor) => {
       const url =
         cursor !== 0

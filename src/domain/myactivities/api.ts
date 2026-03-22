@@ -1,4 +1,20 @@
 import { ApiError, apiFetch } from '@/api/api';
+import type { MyActivities } from '@/domain/myactivities/type';
+
+export async function getMyActivities(
+  cursorId?: number,
+  size = 5
+): Promise<MyActivities> {
+  const params = new URLSearchParams({ size: String(size) });
+
+  if (cursorId) {
+    params.set('cursorId', String(cursorId));
+  }
+
+  return apiFetch<MyActivities>(`/my-activities?${params.toString()}`, {
+    cache: 'no-store',
+  });
+}
 
 export async function deleteMyActivity(id: number) {
   const body = { status: 'canceled' };

@@ -99,6 +99,7 @@ export interface ExperienceReviewsProps {
 
 export interface ReservationCardProps {
   experience: ExperienceDetail;
+  initialAvailableSchedules: AvailableSchedule[];
   selectedDate: Date | null;
   selectedTime: string | null;
   participantCount: number;
