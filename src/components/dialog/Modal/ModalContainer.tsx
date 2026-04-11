@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import type { SyntheticEvent } from 'react';
 import type { ModalProps } from '@/components/dialog/Modal/type';
-import { cx } from '@/utils/cx';
+import { cx } from '@/lib/cx';
 
 /**
  * 모달 창을 렌더링하는 컨테이너 컴포넌트

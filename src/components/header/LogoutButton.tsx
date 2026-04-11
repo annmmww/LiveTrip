@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import type { SessionType } from 'next-auth';
 import { signOut as nextAuthSignOut } from 'next-auth/react';
-import { toast } from '@/components/toast';
-import { getKaKaoLogoutURL } from '@/domain/auth/util';
+import { toast } from '@/components/feedback/toast';
+import { getKaKaoLogoutURL } from '@/domains/auth/util';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 

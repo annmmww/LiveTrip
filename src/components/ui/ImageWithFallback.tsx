@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 
 interface ImageWithFallbackProps {
@@ -19,6 +19,7 @@ export default function ImageWithFallback({
   ...props
 }: ImageWithFallbackProps) {
   const [imgSrc, setImgSrc] = useState(src);
+  const isRemoteImage = /^https?:\/\//.test(imgSrc);
 
   return (
     <Image
@@ -27,6 +28,7 @@ export default function ImageWithFallback({
       width={width}
       height={height}
       alt={alt}
+      unoptimized={isRemoteImage}
       onError={() => {
         setImgSrc(fallback);
       }}

@@ -11,15 +11,15 @@ import NextAuth, {
 } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
-import { ApiError } from '@/api/api';
+import { ApiError } from '@/lib/api/api';
 import {
   getNewToken,
   mutateKaKaoSignIn,
   mutateKaKaoSignUp,
   mutateSignin,
   mutateSignup,
-} from '@/domain/auth/api';
-import { signinInputSchema, signupInputSchema } from '@/domain/auth/type';
+} from '@/domains/auth/api';
+import { signinInputSchema, signupInputSchema } from '@/domains/auth/type';
 
 class InvalidLoginError extends CredentialsSignin {
   code = 'Invalid identifier or password';
@@ -43,6 +43,12 @@ export class KakaoAlreadySignupError extends CredentialsSignin {
     this.code = 'KAKAO_SIGNUP_ALREADY_REGISTERED';
   }
 }
+
+const AUTH_SECRET =
+  process.env.AUTH_SECRET ??
+  process.env.NEXTAUTH_SECRET ??
+  'livetrip-local-auth-secret';
+
 export const {
   handlers,
   signIn,
@@ -50,6 +56,8 @@ export const {
   auth,
   unstable_update: update, // Beta!
 } = NextAuth({
+  secret: AUTH_SECRET,
+  trustHost: true,
   providers: [
     Credentials({
       authorize: async (credentials) => {

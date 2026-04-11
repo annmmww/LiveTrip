@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
-import SearchResult from '@/domain/home/components/search/SearchResult';
-import IntroSection from '@/domain/home/components/IntroSection';
-import SearchResultSkeleton from '@/domain/home/components/search/SearchResultSkeleton';
+import SearchResult from '@/domains/home/containers/search/SearchResult';
+import IntroSection from '@/domains/home/containers/IntroSection';
+import SearchResultSkeleton from '@/domains/home/containers/search/SearchResultSkeleton';
 
 export default async function HomeSearchPage({
   searchParams,

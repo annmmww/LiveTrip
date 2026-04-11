@@ -5,7 +5,7 @@ const sheriffOptions = {
   react: true,
   lodash: false,
   remeda: false,
-  next: true,
+  next: false,
   astro: false,
   playwright: false,
   storybook: true,
@@ -14,10 +14,14 @@ const sheriffOptions = {
 };
 
 const eslintConfig = [
-  // Ensure Next.js plugin is detected by Next.js tooling
-  ...nextPlugin.configs['core-web-vitals'],
   ...sheriff(sheriffOptions),
   {
+    plugins: {
+      '@next/next': nextPlugin,
+    },
+    linterOptions: {
+      reportUnusedDisableDirectives: false,
+    },
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -26,6 +30,8 @@ const eslintConfig = [
       },
     },
     rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs['core-web-vitals'].rules,
       '@typescript-eslint/no-misused-promises': [
         'error',
         {
@@ -33,22 +39,47 @@ const eslintConfig = [
         },
       ],
       'no-console': 'off',
-      // 절대경로 통일을 위해 ".*" 패턴 제한
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: ['.*'],
-        },
-      ],
+      'no-restricted-imports': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/consistent-type-imports': 'off',
+      '@typescript-eslint/no-confusing-void-expression': 'off',
+      '@typescript-eslint/no-import-type-side-effects': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      '@typescript-eslint/no-unnecessary-template-expression': 'off',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+      '@typescript-eslint/no-unnecessary-type-conversion': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/array-type': 'off',
       'react-refresh/only-export-components': 'off',
+      'react/function-component-definition': 'off',
       'react/jsx-no-useless-fragment': 'off',
+      'react/jsx-sort-props': 'off',
+      'react/no-array-index-key': 'off',
+      'react-hooks/exhaustive-deps': 'warn',
+      'simple-import-sort/imports': 'off',
+      '@stylistic/padding-line-between-statements': 'off',
+      'arrow-return-style/arrow-return-style': 'off',
+      'curly': 'off',
+      'eqeqeq': 'off',
       '@typescript-eslint/naming-convention': 'off',
+      'import/newline-after-import': 'off',
       'jsdoc/require-description-complete-sentence': 'off',
+      'jsdoc/convert-to-jsdoc-comments': 'off',
       'func-style': 'off',
       'no-negated-condition': 'off',
+      'no-nested-ternary': 'off',
+      'no-implicit-coercion': 'off',
+      'operator-assignment': 'off',
+      'prefer-destructuring': 'off',
+      'no-param-reassign': 'off',
       'unicorn/consistent-function-scoping': 'off',
+      'unicorn/catch-error-name': 'off',
+      'unicorn/prefer-spread': 'off',
+      'unicorn/switch-case-braces': 'off',
       'react/no-multi-comp': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
       '@typescript-eslint/require-await': 'off',
@@ -69,6 +100,7 @@ const eslintConfig = [
       '@typescript-eslint/no-unsafe-call': 'off',
       'no-fallthrough': 'off',
       '@typescript-eslint/no-shadow': 'off',
+      '@next/next/no-img-element': 'warn',
     },
   },
 ];

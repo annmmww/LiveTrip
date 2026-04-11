@@ -1,4 +1,4 @@
-import { cx } from '@/utils/cx';
+import { cx } from '@/lib/cx';
 
 export default function Spinner({ size }: { size: 'sm' | 'md' | 'lg' }) {
   const sizes = {

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { cx } from '@/utils/cx';
+import { cx } from '@/lib/cx';
 
 type Variant = 'primary' | 'secondary' | 'label' | 'filter';
 type Style = 'default' | 'accent';

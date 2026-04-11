@@ -1,11 +1,11 @@
-import '@/app/globals.css';
+import '@/styles/globals.css';
 import { cx } from 'class-variance-authority';
 import type { Metadata } from 'next';
 import { Noto_Sans } from 'next/font/google';
 import localFont from 'next/font/local';
 import { SessionProvider } from 'next-auth/react';
-import { ToastContainer } from '@/components/toast/ToastContainer';
-import ReactQueryProvider from '@/utils/react-query/ReactQueryProvider';
+import { ToastContainer } from '@/components/feedback/toast/ToastContainer';
+import ReactQueryProvider from '@/lib/react-query/ReactQueryProvider';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://live-trip-lac.vercel.app'),
