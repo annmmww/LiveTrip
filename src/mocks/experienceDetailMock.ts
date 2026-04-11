@@ -1,7 +1,7 @@
 import type {
   ExperienceDetail,
   ReviewResponse,
-} from '@/domain/experience-detail/type';
+} from '@/domains/experience-detail/type';
 
 // 체험 상세 Mock 데이터
 export const MOCK_EXPERIENCE_DETAIL: ExperienceDetail = {

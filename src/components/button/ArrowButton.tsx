@@ -1,4 +1,4 @@
-import { cx } from '@/utils/cx';
+import { cx } from '@/lib/cx';
 
 interface ArrowButtonProps {
   onClick?: (...args: unknown[]) => any;

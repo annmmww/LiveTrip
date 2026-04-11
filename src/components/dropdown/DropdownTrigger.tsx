@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import ArrowDown from '@/components/dropdown/assets/arrow-down.svg';
 import { useDropdownContext } from '@/components/dropdown/dropdownContext';
 import type { Variant } from '@/components/dropdown/type';
-import { cx } from '@/utils/cx';
+import { cx } from '@/lib/cx';
 
 interface DropDownTriggerProps {
   variant?: Variant;

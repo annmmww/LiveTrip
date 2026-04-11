@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { toast } from '@/components/toast';
+import { toast } from '@/components/feedback/toast';
 
 export default function ToastOnMount({ message }: { message: string }) {
   useEffect(() => {

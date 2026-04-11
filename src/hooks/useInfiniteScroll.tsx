@@ -5,7 +5,7 @@ import {
   type QueryKey,
   useInfiniteQuery,
 } from '@tanstack/react-query';
-import { apiFetch } from '@/api/api';
+import { apiFetch } from '@/lib/api/api';
 
 const DEFAULT_STALE_TIME = 1000 * 60 * 5;
 const DEFAULT_GC_TIME = 1000 * 60 * 30;

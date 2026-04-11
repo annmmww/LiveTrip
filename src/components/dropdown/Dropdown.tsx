@@ -4,7 +4,7 @@ import DropdownItems from '@/components/dropdown/DropdownItems';
 import DropdownMenu from '@/components/dropdown/DropdownMenu';
 import DropdownTrigger from '@/components/dropdown/DropdownTrigger';
 import useDropdownClose from '@/components/dropdown/useDropdownClose';
-import { cx } from '@/utils/cx';
+import { cx } from '@/lib/cx';
 
 interface DropdownProps {
   children: ReactNode;

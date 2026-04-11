@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import KaKaoAuthButton from '@/domain/auth/components/KaKaoAuthButton';
-import Logo from '@/domain/auth/components/Logo';
-import SignInForm from '@/domain/auth/components/SignInForm';
+import KaKaoAuthButton from '@/domains/auth/components/KaKaoAuthButton';
+import Logo from '@/domains/auth/components/Logo';
+import SignInForm from '@/domains/auth/components/SignInForm';
 
 export default function SignInPage() {
   return (

@@ -1,0 +1,25 @@
+import { dehydrate, type QueryKey } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/react-query/getQueryClient';
+
+interface InfiniteQueryProps<ResponseType = unknown> {
+  queryKey: QueryKey;
+  queryFn: () => Promise<ResponseType>;
+  initialPageParam: number | undefined;
+}
+
+export async function getDehydratedInfiniteQueryClient({
+  queryKey,
+  queryFn,
+  initialPageParam,
+}: InfiniteQueryProps) {
+  // 캐싱된 QueryClient를 불러오기
+  const queryClient = getQueryClient();
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey,
+    queryFn,
+    initialPageParam,
+  });
+
+  return dehydrate(queryClient);
+}

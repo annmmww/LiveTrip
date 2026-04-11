@@ -6,10 +6,10 @@ import defaultProfileImg from '@/components/header/asset/default-profile-img.svg
 import LogoutButton from '@/components/header/LogoutButton';
 import { useEffect, useRef, useState } from 'react';
 import Notification from '@/components/notification/Notification';
-import { useUserInfo } from '@/domain/auth/queries/useUserInfo';
+import { useUserInfo } from '@/domains/auth/queries/useUserInfo';
 import SessionNavSkeleton from '@/components/header/SessionNavSkeleton';
 import { useQuery } from '@tanstack/react-query';
-import { apiFetch } from '@/api/api';
+import { apiFetch } from '@/lib/api/api';
 import type { Notifications } from '@/components/notification/type';
 
 export default function SessionNav() {

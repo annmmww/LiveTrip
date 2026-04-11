@@ -8,7 +8,7 @@ import type {
   MenuItemType,
   SideMenuProps,
 } from '@/components/side-menu/type';
-import { cx } from '@/utils/cx';
+import { cx } from '@/lib/cx';
 
 const MENU_ITEMS: MenuItem[] = [
   {

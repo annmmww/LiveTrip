@@ -1,5 +1,5 @@
-import { getUserInfo } from '@/domain/auth/api';
-import ProfileEditForm from '@/domain/profile/components/ProfileEditForm';
+import { getUserInfo } from '@/domains/auth/api';
+import ProfileEditForm from '@/domains/profile/components/ProfileEditForm';
 
 export default async function ProfilePage() {
   const { nickname, email, profileImageUrl } = await getUserInfo();

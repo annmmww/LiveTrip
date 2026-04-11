@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import KaKaoAuthButton from '@/domain/auth/components/KaKaoAuthButton';
-import Logo from '@/domain/auth/components/Logo';
-import SignUpForm from '@/domain/auth/components/SignUpForm';
+import KaKaoAuthButton from '@/domains/auth/components/KaKaoAuthButton';
+import Logo from '@/domains/auth/components/Logo';
+import SignUpForm from '@/domains/auth/components/SignUpForm';
 
 export default function SignUpPage() {
   return (

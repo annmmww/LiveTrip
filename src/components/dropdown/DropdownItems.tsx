@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { useDropdownContext } from '@/components/dropdown/dropdownContext';
 import type { Variant } from '@/components/dropdown/type';
-import { cx } from '@/utils/cx';
+import { cx } from '@/lib/cx';
 
 interface DropdownItemsProps {
   variant?: Variant;

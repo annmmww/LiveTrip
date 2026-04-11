@@ -13,6 +13,8 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (err) {
+    console.error(err);
+    
     return NextResponse.json(
       { revalidated: false, error: 'Failed to revalidate' },
       { status: 500 }

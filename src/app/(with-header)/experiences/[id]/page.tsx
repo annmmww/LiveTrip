@@ -1,19 +1,19 @@
-import ExperienceDetailClient from '@/domain/experience-detail/components/experience/ExperienceDetailClient';
-import ExperienceInfo from '@/domain/experience-detail/components/experience/ExperienceInfo';
-import ExperienceReviews from '@/domain/experience-detail/components/experience/ExperienceReviews';
-import ImageGallery from '@/domain/experience-detail/components/experience/ImageGallery';
-import KakaoMapScript from '@/domain/experience-detail/components/experience/KakaoMapScript';
-import MobileExperienceHeader from '@/domain/experience-detail/components/experience/MobileExperienceHeader';
+import ExperienceDetailClient from '@/domains/experience-detail/components/experience/ExperienceDetailClient';
+import ExperienceInfo from '@/domains/experience-detail/components/experience/ExperienceInfo';
+import ExperienceReviews from '@/domains/experience-detail/components/experience/ExperienceReviews';
+import ImageGallery from '@/domains/experience-detail/components/experience/ImageGallery';
+import KakaoMapScript from '@/domains/experience-detail/components/experience/KakaoMapScript';
+import MobileExperienceHeader from '@/domains/experience-detail/components/experience/MobileExperienceHeader';
 import type {
   ExperienceDetail,
   ReviewResponse,
-} from '@/domain/experience-detail/type';
+} from '@/domains/experience-detail/type';
 import {
   getAvailableSchedule,
   getExperienceDetail,
   getReviews,
-} from '@/domain/experience-detail/api';
-import { getAuth } from '@/utils/getAuth';
+} from '@/domains/experience-detail/api';
+import { getAuth } from '@/lib/getAuth';
 import { notFound } from 'next/navigation';
 
 interface PageProps {

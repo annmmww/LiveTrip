@@ -1,12 +1,12 @@
 import { Suspense } from 'react';
-import AllActivitySection from '@/domain/home/components/all-activity-section/AllActivitySection';
-import PopularActivitySection from '@/domain/home/components/popular-activity-section/PopularActivitySection';
-import ToastLayer from '@/domain/home/components/ToastLayer';
-import type { homeSearchParams } from '@/domain/home/type';
-import IntroSection from '@/domain/home/components/IntroSection';
-import PopularActivitySectionSkeleton from '@/domain/home/components/popular-activity-section/PopularActivitySectionSkeleton';
-import AllActivityPrefetch from '@/domain/home/components/all-activity-section/AllActivityPrefetch';
-import GridCardListSkeleton from '@/domain/home/components/GridCardListSkeleton';
+import AllActivitySection from '@/domains/home/containers/all-activity-section/AllActivitySection';
+import PopularActivitySection from '@/domains/home/containers/popular-activity-section/PopularActivitySection';
+import ToastLayer from '@/domains/home/containers/ToastLayer';
+import type { homeSearchParams } from '@/domains/home/type';
+import IntroSection from '@/domains/home/containers/IntroSection';
+import PopularActivitySectionSkeleton from '@/domains/home/containers/popular-activity-section/PopularActivitySectionSkeleton';
+import AllActivityPrefetch from '@/domains/home/containers/all-activity-section/AllActivityPrefetch';
+import GridCardListSkeleton from '@/domains/home/containers/GridCardListSkeleton';
 
 export default async function Home({
   searchParams,
