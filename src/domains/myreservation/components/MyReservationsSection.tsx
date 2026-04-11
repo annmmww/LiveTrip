@@ -1,7 +1,6 @@
 'use client';
 import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import Button from '@/components/button/Button';
 import { CategoryIcon } from '@/domains/home/containers/svg';
 import CardList from '@/domains/myreservation/components/CardList';

@@ -23,15 +23,7 @@ export function useMyReservations() {
       return url;
     },
     selectItems: (view) => view.reservations,
-    selectNextCursor: (view) => {
-      const list = view.reservations;
-
-      if (list.length < pageSize) {
-        return undefined;
-      }
-
-      return list[list.length - 1]?.id;
-    },
+    selectNextCursor: (view) => view.cursorId ?? undefined,
     selectTotalCount: (first) => first?.totalCount ?? 0,
     pageSize,
   });

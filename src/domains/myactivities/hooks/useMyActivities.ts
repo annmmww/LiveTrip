@@ -1,8 +1,11 @@
 import { useInfiniteByCursor } from '@/hooks/useInfiniteScroll';
 import type { Activity, MyActivities } from '@/domains/myactivities/type';
+import {
+  MY_ACTIVITIES_PAGE_SIZE,
+  myActivitiesQueryKeys,
+} from '@/domains/myactivities/queryOptions';
 
-export function useMyActivities(initialData?: MyActivities) {
-  const pageSize = 5;
+export function useMyActivities() {
   const {
     items: activities,
     totalCount,
@@ -11,34 +14,20 @@ export function useMyActivities(initialData?: MyActivities) {
     isFetchingNextPage,
     isLoading,
   } = useInfiniteByCursor<MyActivities, Activity>({
-    queryKey: ['myActivities'],
+    queryKey: myActivitiesQueryKeys.all(),
     initialCursor: 0,
-    initialData: initialData
-      ? {
-          pages: [initialData],
-          pageParams: [0],
-        }
-      : undefined,
     buildUrl: (cursor) => {
       const url =
         cursor !== 0
-          ? `/my-activities?cursorId=${cursor}&size=${pageSize}`
-          : `/my-activities?size=${pageSize}`;
+          ? `/my-activities?cursorId=${cursor}&size=${MY_ACTIVITIES_PAGE_SIZE}`
+          : `/my-activities?size=${MY_ACTIVITIES_PAGE_SIZE}`;
 
       return url;
     },
     selectItems: (view) => view.activities,
-    selectNextCursor: (view) => {
-      const list = view.activities;
-
-      if (list.length < pageSize) {
-        return undefined;
-      }
-
-      return list[list.length - 1]?.id;
-    },
+    selectNextCursor: (view) => view.cursorId ?? undefined,
     selectTotalCount: (first) => first?.totalCount ?? 0,
-    pageSize,
+    pageSize: MY_ACTIVITIES_PAGE_SIZE,
   });
 
   return {

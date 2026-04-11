@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import NotificationItem from '@/components/notification/NotificationItem';
 import type {
   Notification,
@@ -36,33 +36,12 @@ export default function Notification({ onClose }: { onClose?: () => void }) {
       return url;
     },
     selectItems: (view) => view.notifications,
-    selectNextCursor: (view) => {
-      const list = view.notifications;
-
-      if (list.length < pageSize) {
-        return undefined;
-      }
-
-      return list[list.length - 1]?.id;
-    },
+    selectNextCursor: (view) => view.cursorId ?? undefined,
     selectTotalCount: (first) => first?.totalCount ?? 0,
     pageSize,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
   });
-
-  const [now, setNow] = useState(Date.now());
-
-  // 1분마다 기준 시각 갱신 (UI에 상대시간이 갱신되게)
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setNow(Date.now());
-    }, 60 * 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
 
   const [page, setPage] = useState(0);
 

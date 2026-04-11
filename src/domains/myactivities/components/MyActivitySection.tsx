@@ -1,10 +1,10 @@
 'use client';
 import Image from 'next/image';
 import { useEffect, useRef, useState, useTransition } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import ActivitiyCard from '@/domains/myactivities/components/ActivityCard';
-import type { Activity, MyActivities } from '@/domains/myactivities/type';
+import type { Activity } from '@/domains/myactivities/type';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import { useRouter } from 'next/navigation';
 import {
   AlertModalContents,
   ModalContainer,
@@ -13,15 +13,10 @@ import {
 import { useMyActivities } from '@/domains/myactivities/hooks/useMyActivities';
 import { deleteMyActivityAction } from '@/domains/myactivities/actions/deleteMyActivity';
 import { toast } from '@/components/feedback/toast';
+import { myActivitiesQueryKeys } from '@/domains/myactivities/queryOptions';
 
-interface MyActivitySectionProps {
-  initialData?: MyActivities;
-}
-
-export default function MyActivitySection({
-  initialData,
-}: MyActivitySectionProps) {
-  const router = useRouter();
+export default function MyActivitySection() {
+  const queryClient = useQueryClient();
   const {
     activities,
     totalCount,
@@ -29,7 +24,7 @@ export default function MyActivitySection({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-  } = useMyActivities(initialData);
+  } = useMyActivities();
 
   const hasActivities = Boolean(totalCount);
 
@@ -55,7 +50,9 @@ export default function MyActivitySection({
       });
 
       if (result.status === 'success') {
-        router.refresh();
+        await queryClient.invalidateQueries({
+          queryKey: myActivitiesQueryKeys.all(),
+        });
       }
     });
   };
