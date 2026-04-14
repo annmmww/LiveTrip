@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import NotificationItem from '@/components/notification/NotificationItem';
 import type {
   Notification,
