@@ -2,11 +2,13 @@
 
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import RoleToggle from '@/components/side-menu/RoleToggle';
 import type {
   MenuItem,
   MenuItemType,
   SideMenuProps,
+  ToggleRole,
 } from '@/components/side-menu/type';
 import { cx } from '@/lib/cx';
 
@@ -16,24 +18,28 @@ const MENU_ITEMS: MenuItem[] = [
     label: '내 정보',
     iconPath: '/icons/icon_user.svg',
     href: '/profile',
+    role: 'user',
   },
   {
     id: 'reservationHistory',
     label: '예약내역',
     iconPath: '/icons/icon_list.svg',
     href: '/myreservation',
+    role: 'customer',
   },
   {
     id: 'manageExperiences',
     label: '내 체험 관리',
     iconPath: '/icons/icon_setting.svg',
     href: '/myactivities',
+    role: 'host',
   },
   {
     id: 'reservationStatus',
-    label: '예약현황',
+    label: '내 체험 예약현황',
     iconPath: '/icons/icon_calendar.svg',
     href: '/reservation-status',
+    role: 'host',
   },
 ];
 
@@ -53,44 +59,64 @@ export const SIZE_CONFIG = {
 const PRIMARY_FILTER =
   'brightness(0) saturate(100%) invert(43%) sepia(96%) saturate(1352%) hue-rotate(188deg) brightness(119%) contrast(119%)';
 
+const getActiveItem = (pathname: string): MenuItemType => {
+  if (pathname.includes('/profile')) {
+    return 'myInfo';
+  }
+  if (pathname.includes('/myreservation')) {
+    return 'reservationHistory';
+  }
+  if (pathname.includes('/myactivities')) {
+    return 'manageExperiences';
+  }
+  if (pathname.includes('/reservation-status')) {
+    return 'reservationStatus';
+  }
+
+  return 'myInfo';
+};
+
+const getRoleFromPath = (pathname: string): ToggleRole | null => {
+  if (pathname.includes('/myreservation')) {
+    return 'customer';
+  }
+  if (
+    pathname.includes('/myactivities') ||
+    pathname.includes('/reservation-status')
+  ) {
+    return 'host';
+  }
+
+  return null;
+};
+
 export default function SideMenu({ className = '' }: SideMenuProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const [selectedRole, setSelectedRole] = useState<ToggleRole>(
+    getRoleFromPath(pathname) ?? 'customer'
+  );
 
-  /**
-   * 현재 경로에 따라 activeItem 자동 결정
-   */
-  const getActiveItem = (): MenuItemType => {
-    if (pathname.includes('/profile')) {
-      return 'myInfo';
-    }
-    if (pathname.includes('/myreservation')) {
-      return 'reservationHistory';
-    }
-    if (pathname.includes('/myactivities')) {
-      return 'manageExperiences';
-    }
-    if (pathname.includes('/reservation-status')) {
-      return 'reservationStatus';
-    }
+  useEffect(() => {
+    const roleFromPath = getRoleFromPath(pathname);
 
-    return 'reservationHistory';
-  };
+    if (roleFromPath) {
+      setSelectedRole(roleFromPath);
+    }
+  }, [pathname]);
 
-  const [activeItem, setActiveItem] = useState<MenuItemType>(getActiveItem());
+  const activeItem = getActiveItem(pathname);
+  const visibleMenuItems = MENU_ITEMS.filter(
+    (item) => item.role === 'user' || item.role === selectedRole
+  );
 
-  const handleMenuClick = (itemId: MenuItemType, href: string) => {
-    setActiveItem(itemId);
+  const handleMenuClick = (href: string) => {
     router.push(href);
   };
 
-  const handleKeyDown = (
-    e: React.KeyboardEvent,
-    itemId: MenuItemType,
-    href: string
-  ) => {
+  const handleKeyDown = (e: React.KeyboardEvent, href: string) => {
     if (e.key === 'Enter' || e.key === ' ') {
-      handleMenuClick(itemId, href);
+      handleMenuClick(href);
     }
   };
 
@@ -102,10 +128,10 @@ export default function SideMenu({ className = '' }: SideMenuProps) {
         className
       )}
     >
-      {/* 메뉴 항목들 */}
       <div className={SIZE_CONFIG.spacing.menuPadding}>
+        <RoleToggle selectedRole={selectedRole} onChange={setSelectedRole} />
         <div className={SIZE_CONFIG.spacing.spaceY}>
-          {MENU_ITEMS.map((item) => {
+          {visibleMenuItems.map((item) => {
             const isActive = item.id === activeItem;
 
             return (
@@ -117,10 +143,10 @@ export default function SideMenu({ className = '' }: SideMenuProps) {
                   isActive ? 'bg-primary-100' : 'hover:bg-gray-50'
                 }`}
                 onClick={() => {
-                  handleMenuClick(item.id, item.href);
+                  handleMenuClick(item.href);
                 }}
                 onKeyDown={(e) => {
-                  handleKeyDown(e, item.id, item.href);
+                  handleKeyDown(e, item.href);
                 }}
               >
                 <Image
