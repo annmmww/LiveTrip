@@ -1,7 +1,6 @@
 import ToastOnMount from '@/components/ToastOnMount';
+import MyActivityPrefetch from '@/domains/myactivities/components/MyActivityPrefetch';
 import RegisterActivity from '@/domains/myactivities/components/RegitsterActivity';
-import MyActivitySection from '@/domains/myactivities/components/MyActivitySection';
-import { getMyActivities } from '@/domains/myactivities/api';
 
 export default async function Page({
   searchParams,
@@ -10,7 +9,6 @@ export default async function Page({
 }) {
   const sp = await searchParams;
   const unauthorized = sp?.unauthorized === '1';
-  const initialActivities = await getMyActivities();
 
   return (
     <>
@@ -31,7 +29,7 @@ export default async function Page({
             </div>
           </div>
         </section>
-        <MyActivitySection initialData={initialActivities} />
+        <MyActivityPrefetch />
       </main>
     </>
   );

@@ -9,7 +9,7 @@ export default function SearchForm() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const q = searchParams.get('q');
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const searchValue = searchInputRef.current?.value;
 

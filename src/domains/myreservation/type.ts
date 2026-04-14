@@ -42,7 +42,7 @@ export interface Reservation {
 }
 
 export interface MyReservations {
-  cursorId: number;
+  cursorId: number | null;
   totalCount: number;
   reservations: Reservation[];
 }

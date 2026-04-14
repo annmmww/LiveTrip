@@ -97,6 +97,8 @@ export function useInfiniteByCursor<TPage, TItem>({
 
       return getItemCursor(lastItem);
     },
+    staleTime,
+    gcTime,
     initialData,
   });
 

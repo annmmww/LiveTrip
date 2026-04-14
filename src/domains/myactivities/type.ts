@@ -14,7 +14,7 @@ export interface Activity {
 }
 
 export interface MyActivities {
-  cursorId: number;
+  cursorId: number | null;
   totalCount: number;
   activities: Activity[];
 }

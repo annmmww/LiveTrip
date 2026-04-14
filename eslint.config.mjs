@@ -24,8 +24,8 @@ const eslintConfig = [
     },
     languageOptions: {
       parserOptions: {
+        project: false,
         projectService: true,
-        project: './tsconfig.json',
         tsconfigRootDir: import.meta.dirname,
       },
     },
