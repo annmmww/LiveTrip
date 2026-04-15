@@ -13,13 +13,13 @@ export default async function Page({
   return (
     <>
       <main className='w-full'>
-        <section>
+        <header>
           {unauthorized && <ToastOnMount message='접근 권한이 없습니다.' />}
           <div className='flex items-center justify-between'>
             <div>
-              <h2 className='text-18 mb-2.5 font-bold text-gray-950'>
+              <h1 className='text-18 mb-2.5 font-bold text-gray-950'>
                 내 체험 관리
-              </h2>
+              </h1>
               <p className='text-gray-500'>
                 체험을 등록하거나 수정 및 삭제가 가능합니다.
               </p>
@@ -28,7 +28,7 @@ export default async function Page({
               <RegisterActivity />
             </div>
           </div>
-        </section>
+        </header>
         <MyActivityPrefetch />
       </main>
     </>
