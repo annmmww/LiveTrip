@@ -5,10 +5,10 @@ const DEFAULT_DEV_API_URL = 'https://sp-globalnomad-api.vercel.app/17-6';
 const configuredBaseUrl =
   process.env.NEXT_PUBLIC_API_URL ?? process.env.API_URL;
 
-export const BASE_URL = (
-  configuredBaseUrl ??
-  DEFAULT_DEV_API_URL
-).replace(/\/+$/, '');
+export const BASE_URL = (configuredBaseUrl ?? DEFAULT_DEV_API_URL).replace(
+  /\/+$/,
+  ''
+);
 
 export class ApiError extends Error {
   status: number;

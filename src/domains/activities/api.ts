@@ -56,7 +56,7 @@ export interface MyActivityDetail extends Activity {
 export const getMyActivity = async (
   id: number | string
 ): Promise<MyActivityDetail> => {
-  return apiFetch<MyActivityDetail>(`/my-activities/${id}`);
+  return apiFetch<MyActivityDetail>(`/activities/${id}`);
 };
 
 export type UpdateActivityPayload = Partial<{
