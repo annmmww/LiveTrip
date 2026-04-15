@@ -32,8 +32,8 @@ export default function CardList({
 
   return (
     <>
-      <div className='relative hidden h-[200px] w-[640px] md:flex'>
-        <div className='relative z-10 flex h-full w-[400px] flex-col justify-between overflow-hidden rounded-[2rem] bg-white p-6 shadow-[0_0_16px_rgba(0,0,0,0.1)]'>
+      <div className='relative hidden h-50 w-160 md:flex'>
+        <div className='relative z-10 flex h-full w-100 flex-col justify-between overflow-hidden rounded-2xl bg-white p-6 shadow-[0_0_16px_rgba(0,0,0,0.1)]'>
           <div className='flex flex-col gap-2'>
             <div className='w-fit'>
               <StateBadge state={state} />
@@ -81,7 +81,7 @@ export default function CardList({
           </div>
         </div>
 
-        <div className='relative -ml-28 h-full w-[280px] overflow-hidden rounded-[2rem]'>
+        <div className='relative -ml-28 h-full w-70 overflow-hidden rounded-2xl'>
           <Image
             fill
             alt={title}
@@ -92,11 +92,11 @@ export default function CardList({
         </div>
       </div>
 
-      <div className='hidden w-[476px] flex-col gap-4 sm:flex md:hidden'>
+      <div className='hidden w-119 flex-col gap-4 sm:flex md:hidden'>
         <p className='text-base font-bold text-gray-800'>{date}</p>
 
-        <div className='relative flex h-[168px]'>
-          <div className='relative z-10 flex w-[340px] flex-col justify-between overflow-hidden rounded-3xl bg-white p-6 shadow-[0_0_15px_rgba(0,0,0,0.09)]'>
+        <div className='relative flex h-42'>
+          <div className='relative z-10 flex w-85 flex-col justify-between overflow-hidden rounded-3xl bg-white p-6 shadow-[0_0_15px_rgba(0,0,0,0.09)]'>
             <div className='flex flex-col gap-2'>
               <div className='w-fit'>
                 <StateBadge state={state} />
@@ -112,7 +112,7 @@ export default function CardList({
             </div>
           </div>
 
-          <div className='relative -ml-20 h-full w-[216px] overflow-hidden rounded-3xl'>
+          <div className='relative -ml-20 h-full w-54 overflow-hidden rounded-3xl'>
             <Image
               fill
               alt={title}
@@ -126,13 +126,13 @@ export default function CardList({
         {showActionButtons && (
           <div className='flex gap-2'>
             <button
-              className={`${BUTTON_STYLES.change} w-[234px] py-2 text-base`}
+              className={`${BUTTON_STYLES.change} w-58.5 py-2 text-base`}
               onClick={onChangeReservation}
             >
               예약 변경
             </button>
             <button
-              className={`${BUTTON_STYLES.cancel} w-[234px] py-2 text-base`}
+              className={`${BUTTON_STYLES.cancel} w-58.5 py-2 text-base`}
               onClick={onCancelReservation}
             >
               예약 취소
@@ -142,7 +142,7 @@ export default function CardList({
 
         {showReviewButton && (
           <button
-            className={`${BUTTON_STYLES.review} w-[476px] py-2 text-base`}
+            className={`${BUTTON_STYLES.review} w-119 py-2 text-base`}
             onClick={onWriteReview}
             disabled={reviewSubmitted}
           >
@@ -151,11 +151,11 @@ export default function CardList({
         )}
       </div>
 
-      <div className='flex w-[327px] flex-col gap-3 sm:hidden'>
+      <div className='flex w-81.75 flex-col gap-3 sm:hidden'>
         <p className='text-sm font-bold text-gray-800'>{date}</p>
 
-        <div className='relative flex h-[136px]'>
-          <div className='relative z-10 flex w-[240px] flex-col justify-between overflow-hidden rounded-2xl bg-white p-4 shadow-[0_0_15px_rgba(0,0,0,0.09)]'>
+        <div className='relative flex h-34'>
+          <div className='relative z-10 flex w-60 flex-col justify-between overflow-hidden rounded-2xl bg-white p-4 shadow-[0_0_15px_rgba(0,0,0,0.09)]'>
             <div className='flex flex-col gap-1'>
               <div className='w-fit'>
                 <StateBadge state={state} className='px-2 py-1 text-xs' />
@@ -171,7 +171,7 @@ export default function CardList({
             </div>
           </div>
 
-          <div className='relative -ml-15 h-full w-[147px] overflow-hidden rounded-2xl'>
+          <div className='relative -ml-15 h-full w-36.75 overflow-hidden rounded-2xl'>
             <Image
               fill
               alt={title}
@@ -201,7 +201,7 @@ export default function CardList({
 
         {showReviewButton && (
           <button
-            className={`${BUTTON_STYLES.review} w-[327px] py-1.5 text-sm`}
+            className={`${BUTTON_STYLES.review} w-81.75 py-1.5 text-sm`}
             onClick={onWriteReview}
             disabled={reviewSubmitted}
           >
