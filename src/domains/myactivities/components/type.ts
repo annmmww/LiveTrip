@@ -7,3 +7,8 @@ export interface ActivityCardProps {
   bannerImageUrl: string;
   onDelete?: () => void;
 }
+
+export interface ActivityInfoProps {
+  id: number;
+  className?: string;
+}
